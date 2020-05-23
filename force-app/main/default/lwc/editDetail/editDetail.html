@@ -1,0 +1,24 @@
+<template>
+    <lightning-record-edit-form record-id={recordId} object-api-name="Order" onsuccess={handleSuccess}>
+        <lightning-card>   
+        <lightning-output-field field-name="OrderNumber"></lightning-output-field>  
+        <lightning-input-field field-name="EffectiveDate" value={effective}></lightning-input-field>
+        <lightning-input-field field-name="AccountId" value={accountid}></lightning-input-field>
+        <lightning-input-field field-name="ContractId" value={contract}></lightning-input-field>
+        <lightning-input-field field-name="ShippingAddress" value={shipping}></lightning-input-field>
+        <lightning-input-field field-name="Status" value={status}></lightning-input-field>
+        <lightning-input-field field-name="Type" value={type}></lightning-input-field>
+        <lightning-button
+        class="slds-m-top_small"
+        label="Edit Order" variant="brand"
+        type="submit" icon-name="standard:record_create" name="save">
+       </lightning-button>
+        
+         </lightning-card>
+    </lightning-record-edit-form>
+     
+         <!-- <lightning-record-form object-api-name="Order" record-id={recordId}  fields={myFields} mode="view">
+    
+        </lightning-record-form> -->
+        
+      </template>
