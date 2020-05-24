@@ -33,41 +33,38 @@
          &nbsp;&nbsp;&nbsp;&nbsp;
          <lightning-button label="Clear" onclick={clear} variant="brand" icon-name="action:remove"></lightning-button>
          
-      <!-- custom data table(with SLDS style) to display contact list  -->  
+       
       <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_small">
          <thead>
             <tr class="slds-line-height_reset">
                <th class="" scope="col">
                   <div class="slds-truncate" title="Product Name">Product Name</div>
                </th>
+              
                <th class="" scope="col">
                   <div class="slds-truncate" title="Email">Price Book Name</div>
                </th>
                <th class="" scope="col">
                   <div class="slds-truncate" title="Email">Brand</div>
-               </th>  
-               <th class="" scope="col">
-                  <div class="slds-truncate" title="Email">Stock Quantity</div>
                </th>
+               
                <th class="" scope="col">
                   <div class="slds-truncate" title="Email">Unit Price</div>
                </th>
-               <!-- <th class="" scope="col">
-                   <div class="slds-truncate" title="Email">PricebookEntr</div>
-                </th> -->
+              
                 <th class="" scope="col">
                  <div class="slds-truncate" title="Email">Save</div>
               </th>
             </tr>
          </thead>
          
-         <tbody>
-            <!--iterate all contact records using for-each iteration -->    
+         <tbody>   
             <template for:each={order} for:item='e' for:index="i">
                <tr class="slds-hint-parent" key={e.Name}>
                   <td>
                      <div class="slds-truncate">{e.Product_Name__c}</div>
                   </td>
+                 
                   <td>
                      <div class="slds-truncate">
                         {e.PBName__c} 
@@ -80,24 +77,17 @@
                        
                      </div>
                   </td>
-                  <td>
-                     <div class="slds-truncate">
-                        {e.Stock_Quantity__c} 
-                       
-                     </div>
-                  </td>
+                 
                   <td>
                      <div class="slds-truncate">
                        {e.UnitPrice} 
                      </div>
                   </td>
                  
-                  <!-- <td>
-                   <div class="slds-truncate">{e.Id}</div>
-                </td> -->
+                 
                 <td>
-                <div><lightning-button label="Add" onclick={add} value={i} icon-name="utility:add" variant="brand"></lightning-button>
-                 <!-- <lightning-button label="Clear" onclick={clear} value={i}></lightning-button> -->
+                <div><lightning-button label="Add" variant="brand" onclick={edit} value={i} icon-name="utility:add"></lightning-button>
+                
            
               </div>
               </td>
@@ -117,7 +107,7 @@
                  </header>
                  
                  <div class="slds-modal__content slds-p-around_medium">
-                   <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+                   <div class="slds-p-bottom_large slds-p-left_large" >
                    <lightning-record-edit-form object-api-name="OrderItem" onsuccess={handleSuccess} onerror={handleError}>
                   <lightning-input-field field-name="Quantity" value={Quantity} >
                   </lightning-input-field>
@@ -132,6 +122,7 @@
                   label="Add Item" variant="brand"
                   type="submit" icon-name="standard:record_create" name="save">
                  </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+
                    <lightning-button
                   class="slds-m-top_small"
                   label="Cancel" onclick={cancel} variant="brand" icon-name="action:remove">
@@ -142,7 +133,6 @@
        </div>
          </section>
       </template>
-
-
-        </div>
+    
+   </div>
 </template>

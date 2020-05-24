@@ -1,26 +1,26 @@
 import { LightningElement,track,api,wire } from 'lwc';
 import getData from '@salesforce/apex/orderControl.getalldata'
 import { getRecord,getFieldValue } from 'lightning/uiRecordApi';
+import { deleteRecord } from 'lightning/uiRecordApi';
 import a from '@salesforce/schema/OrderItem.Quantity';
-import o from '@salesforce/schema/Order.OrderNumber';
+
 import b from '@salesforce/schema/PricebookEntry.Product2Id';
+import c from '@salesforce/schema/PricebookEntry.UnitPrice';
+//import d from '@salesforce/schema/PricebookEntry.ProductName';
 import PBID_FIELD from '@salesforce/schema/OrderItem.PricebookEntryId';
 import getOrderList from '@salesforce/apex/orderControl.getOrderList';
 import getOrder1List from '@salesforce/apex/orderControl.getOrder1List';
 import getMRP from '@salesforce/apex/orderControl.getMRP';
 import getItem from '@salesforce/apex/orderControl.getItemList';
-//import confOrd from '@salesforce/apex/orderControl.confOrder';
 
-//  import getItem from '@salesforce/apex/orderControl.addOrder';
-// import standard toast event 
 import {ShowToastEvent} from 'lightning/platformShowToastEvent'
 
 export default class SearchDetail extends LightningElement {
    @api OrderId
     @api pricebookId
     @track order   
-  
-                 
+   
+                    
     conf
     ind
     id
@@ -28,29 +28,36 @@ export default class SearchDetail extends LightningElement {
     sVal = '';
     sVal1 = '';
     sval2='';
-    ad=false;
+   
     open
+
     //quan
     uni
-    ordId;
-    sm;
-    aa=true;
-    ab=false;
-    myFields = [a,b,c,PBID_FIELD];
-    cost;
-    @track orderItemId;
    
+    ordId;
+  
+    myFields = [a,b,c,PBID_FIELD];
+ 
+  
+    
    
     // update sVal var when input field value change
-  add(event)
+    edit(event)
     {
         this.ind=event.target.value;
+       // alert(this.ind);
         this.open=true;
+        
        this.id=this.order[this.ind].Id;
        this.up=this.order[this.ind].UnitPrice;
-    }  
+       //alert(this.id+" "+this.up);
+     
+     
+    }
     cancel(event){
-        this.open=false;  
+        this.open=false;
+  
+        location.reload;
     }
 
     clear(event){
@@ -59,34 +66,18 @@ export default class SearchDetail extends LightningElement {
         this.sVal2='';
         this.order=null;
     }
-  
+    
 
-    upd(event){
-    this.aa=false;
-    this.ab=true;
-   }
 
-   updSuc(event){
-    this.aa=true;
-    this.ab=false;
-   }
     updateSeachKey(event) {
-        this.sVal = event.target.value;   
-    }
-    handleError(event)
-    {
-        this.dispatchEvent(
-            new ShowToastEvent({
-            title: 'Order cant be placed',
-            message: 'Quantity should be less than Stock Quantity',
-            variant: 'error',
-            }),
-            );
+        this.sVal = event.target.value;
+
+        
     }
     updateSeach(event) {
         
         this.sVal1=event.target.value;
-       // alert(this.sVal1);
+  
     }
  
     updateMRP(event) {
@@ -96,35 +87,44 @@ export default class SearchDetail extends LightningElement {
     }
 
     handleSuccess(event) {
+
         this.open=false;
-        this.sVal='';
-        this.sVal1='';
-        this.sVal2='';
-        this.order=null;
-       
-        this.dispatchEvent(
-            new ShowToastEvent({
-            title: 'Item added to cart',
-            message: '',
+        const msg=new ShowToastEvent({
+            
+            message: 'Item added to cart',
             variant: 'success',
-            }),
-            );
+            })
+            this.dispatchEvent(msg);
+       
+    }
+
+    handleError(){
+    
+            const msg=new ShowToastEvent({
+            title: 'Error',
+            message: 'Product is out of Stock',
+            variant: 'error',
+            })
+            this.dispatchEvent(msg);
     }
 
 
 
+ 
 
+       
 
     // call apex method on button click 
     handleSearch() {
         // if search input value is not blank then call apex method, else display error msg 
         if (this.sVal !== '') {
-         
+           
+            //alert("this is sval"+this.sVal);
             getOrderList({
                     searchKey: this.sVal
                 })
                 .then(result => {
-                    // set @track contacts variable with return contact list from server  
+                  
                     this.order = result;
                 })
                 .catch(error => {
@@ -139,15 +139,13 @@ export default class SearchDetail extends LightningElement {
                     this.order = null;
                 });
         }
-
-       else if (this.sVal1 !== '') {
-        
+        else if (this.sVal1 !== '') {
+           // alert(this.sVal1);
             getOrder1List({
-                
                     searchst: this.sVal1
                 })
                 .then(result => {
-                    // set @track contacts variable with return contact list from server  
+                     
                     this.order = result;
                 })
                 .catch(error => {
@@ -162,12 +160,13 @@ export default class SearchDetail extends LightningElement {
                     this.order = null;
                 });
         }
-       else  if (this.sVal2 !== '') {
+        else if (this.sVal2 !== '') {
+           // alert(this.sVal2);
             getMRP({
                 searchMRP: this.sVal2
                 })
                 .then(result => {
-                    // set @track contacts variable with return contact list from server  
+                   
                     this.order = result;
                 })
                 .catch(error => {
@@ -181,7 +180,7 @@ export default class SearchDetail extends LightningElement {
                     // reset contacts var with null   
                     this.order = null;
                 });
-            
+                alert(searchMRP);
         }
         else {
             // fire toast event if input field is blank

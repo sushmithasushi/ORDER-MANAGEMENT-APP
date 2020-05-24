@@ -1,51 +1,67 @@
-
 <template>
-    <lightning-record-view-form record-id={recordId} object-api-name="Order">
-        <lightning-output-field field-name="OrderNumber"></lightning-output-field> 
-        <lightning-output-field field-name="TotalAmount"></lightning-output-field> 
+        <div class="slds-m-around_medium">
+        <lightning-record-edit-form  object-api-name="Order" record-id={recordId} onsuccess={summary}>
+            <div class="slds-box">
+                <lightning-output-field field-name="OrderNumber"></lightning-output-field> 
 
-     
-        <lightning-button class="slds-m-top_small" label="View Items" variant="brand" onclick={view}>
-       </lightning-button>
-    </lightning-record-view-form>
-    <template if:true={a}>
-    <header class="slds-modal__header">  
-        <center><h2  class="slds-text-heading_medium slds-hyphenate">Order Items</h2></center>
-       </header>
-            <template for:each={searchOrder} for:item='s' for:index='x'>
-                  <lightning-record-view-form record-id={s.Id} object-api-name="OrderItem" key={s}>
-                      <lightning-card>
-                   <table>
-                   <tr><td><lightning-output-field field-name="Product_Name__c"></lightning-output-field></td>
-                   <!-- <td><lightning-output-field field-name="Product_Code__c"></lightning-output-field></td>  -->
-                   <td><lightning-output-field field-name="Brand__c"></lightning-output-field></td>
-                   <td><lightning-output-field field-name="Stock_Quantity__c"></lightning-output-field></td>
-                   <td if:true={aa}><lightning-output-field field-name="Quantity__c"></lightning-output-field></td>
-                   <td><lightning-output-field field-name="UnitPrice"></lightning-output-field></td>
-                   <td><lightning-output-field field-name="TotalPrice"></lightning-output-field></td> 
-                   <td if:true={ab}><lightning-record-edit-form object-api-name="OrderItem" record-id={s.Id} onsuccess={updSuc}>
-                     <nobr> <lightning-input-field field-name="Quantity" value={Quantity}></lightning-input-field>
-                             <lightning-button class="slds-m-top_small" label="Update" variant="brand"  icon-name="utility:replace" type="submit" name="save" ></lightning-button></nobr>
-                </lightning-record-edit-form></td>
-                   <td if:true={aa}><nobr><lightning-button class="slds-m-top_small" label="Update" onclick={upd} variant="brand" icon-name="utility:replace"></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <lightning-button variant="brand"  label="Delete" value={x} icon-name="utility:delete" data-recordid={s.Id} onclick={del}></lightning-button></nobr></td>
-                 </tr>                                      
-                 </table></lightning-card>
-                 </lightning-record-view-form>
-                </template>
-                <lightning-button class="slds-m-top_small" label="Confirm Order" onclick={confirm} variant="success"></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <lightning-button variant="destructive" label="Cancel Order" icon-name="utility:delete" onclick={cancel}></lightning-button> 
-            </template>
-            <template if:true={b}>
-                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-                    <div class="slds-modal__container">
-                         <div class="slds-modal__content slds-p-around_medium">
-                            <div class="slds-p-bottom_large slds-p-left_large" style="width:500px"><center>
-                                <h2  class="slds-text-heading_medium slds-hyphenate">Do you really want to Confirm Order??</h2></br></br>
-                    <lightning-button class="slds-m-top_small" label="Yes" variant="brand"  icon-name="utility:check" onclick={confOrder}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <lightning-button class="slds-m-top_small" label="No" variant="destructive"  icon-name="utility:close" onclick={cancel} ></lightning-button>
-                </center>
-                </div></div></div></section>
-            </template>
+                <lightning-output-field field-name="TotalAmount"></lightning-output-field> 
+                
+            <lightning-button variant="brand" label="View Items" type="submit"></lightning-button>
+
+            </div>
+
+     </lightning-record-edit-form>
     
+</div>
+ <template if:true={sm}>
+  <center>
+    <h2  class="slds-text-heading_medium slds-hyphenate">Order Items</h2></center>
+    <lightning-card>
+   <template for:each={searchOrder} for:item='s' for:index='x'>
+               
+    <lightning-record-view-form record-id={s.Id} object-api-name="OrderItem" key={s}>
+         <div class="slds-box"> 
+     <table>
+     <tr><td><lightning-output-field field-name="Product_Name__c"></lightning-output-field></td>
+     <td><lightning-output-field field-name="Brand__c"></lightning-output-field></td>
+     <td><lightning-output-field field-name="Stock_Quantity__c"></lightning-output-field></td>
+     <td if:true={aa}><lightning-output-field field-name="Quantity__c"></lightning-output-field></td>
+     <td><lightning-output-field field-name="UnitPrice"></lightning-output-field></td>
+     <td><lightning-output-field field-name="TotalPrice"></lightning-output-field></td>
+     <td if:true={ab}><lightning-record-edit-form object-api-name="OrderItem" record-id={s.Id} onsuccess={updSuc}>
+        <lightning-input-field field-name="Quantity" value={Quantity}></lightning-input-field>
+        <lightning-button class="slds-m-top_small" label="Update" variant="brand"  icon-name="utility:replace" type="submit" name="save" ></lightning-button>
+        </lightning-record-edit-form></td>
+
+     <td if:true={aa}><lightning-button
+     class="slds-m-top_small"
+     label="Update" onclick={upd} variant="brand" icon-name="utility:replace">   
+    </lightning-button>
+
+    &nbsp;&nbsp;
+            <lightning-button variant="brand" label="Delete" value={x} icon-name="utility:delete" data-recordid={s.Id} onclick={del}></lightning-button></td>
+            </tr>
+                                                    
+            </table>
+          </div> 
+            </lightning-record-view-form>
+        </template>
+       </lightning-card>
+        <lightning-button class="slds-m-top_small" label="Confirm Order" onclick={confirm} variant="success"></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <lightning-button variant="destructive" label="Cancel Order" onclick={cancel} icon-name="utility:delete"></lightning-button>
+
+    </template>
+    <template if:true={b}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                 <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-p-bottom_large slds-p-left_large" style="width:500px"><center>
+                        <h2  class="slds-text-heading_medium slds-hyphenate">Do you really want to Confirm Order??</h2></br></br>
+            <lightning-button class="slds-m-top_small" label="Yes" variant="brand"  icon-name="utility:check" onclick={confOrder}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <lightning-button class="slds-m-top_small" label="No" variant="destructive"  icon-name="utility:close" onclick={cancel} ></lightning-button>
+        </center>
+        </div></div></div></section>
+    </template>
+
 </template>
+    

@@ -1,24 +1,23 @@
-import { LightningElement,track,wire,api } from 'lwc';
+import { LightningElement,track,wire, api } from 'lwc';
 import getItem from '@salesforce/apex/orderControl.getItemList';
-import { getRecord,getFieldValue } from 'lightning/uiRecordApi';
-import o from '@salesforce/schema/Order.OrderNumber';
-import s from '@salesforce/schema/Order.Submit_for_Approval__c';
-import Ordconfirm from '@salesforce/apex/orderControl.confOrder';
+import Ordconfirm from '@salesforce/apex/orderControl.confOrder1';
+import { deleteRecord ,updateRecord} from 'lightning/uiRecordApi';
+import {ShowToastEvent} from 'lightning/platformShowToastEvent'
 
-import { deleteRecord } from 'lightning/uiRecordApi';
-
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
-export default class SummaryDetail extends LightningElement {
-    @api recordId;
+export default class summaryDetail extends LightningElement {
+    a=true;
+    b=false;
+    sm=false;
     @track ordId;
-    a=false;
     aa=true;
     ab=false;
-    b=false;
     @track searchOrder;
-    view(event)
-    {
+    @api recordId;
+
+    sb=false;
+
+
+    summary(event){
         getItem({
             ordId: this.recordId
         })
@@ -26,37 +25,23 @@ export default class SummaryDetail extends LightningElement {
          
             this.searchOrder = result;
         })
-        this.a=true;
+        this.sm=true;
     }
-    confirm(event)
-    {
-        this.b=true;
-    }
-    cancel(event)
-    {
-        this.a=false;
-        this.b=false;
-    }
-    show(event)
-    {
-        this.b=false;
-        this.dispatchEvent(
-            new ShowToastEvent({
-            title: 'Your Order is placed',
-            message: '',
-            variant: 'success',
-            }),
-            );
+
+    cancel(event){
+        this.sm=false;
     }
 
     updSuc(event){
         this.aa=true;
         this.ab=false;
        }
+
        upd(event){
         this.aa=false;
         this.ab=true;
        }
+
        del(event) {
         this.delIn=event.target.value;
         const orderItemId = event.target.dataset.recordid;
@@ -64,7 +49,7 @@ export default class SummaryDetail extends LightningElement {
         console.log('delete item'+ this.searchOrder.otid);
         
         console.log('delete item' + orderItemId);
-     
+        //alert("delte called")
         deleteRecord(orderItemId)
         .then(() => {
         this.dispatchEvent(
@@ -84,17 +69,33 @@ export default class SummaryDetail extends LightningElement {
         }),
         );
         });
+        this.sm=false;
+        this.sm=true;
+        }
+        confirm(event)
+        {
+            this.b=true;
+        }
+            confOrder(event){
+                this.ordId=this.recordId;
+                Ordconfirm({
+                    ordId:this.ordId
+                })
+                this.show(event);
+                location.reload();
+                
+            }
+            show(event)
+            {
+                this.b=false;
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                    title: 'Your Order is placed',
+                    message: '',
+                    variant: 'success',
+                    }),
+                    );
+            }
+        
 
-        this.a=false;
-        this.a=true;
-        }
-        confOrder(event){
-            this.ordId=this.recordId;
-            Ordconfirm({
-                ordId:this.ordId
-            })
-            this.show(event);
-            location.reload();
-            
-        }
 }
