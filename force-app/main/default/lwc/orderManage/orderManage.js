@@ -33,5 +33,8 @@ export default class AccountCreator extends LightningElement {
             }),
             );
     }
+    cancel1(event){
+        this.s=false;
+    }
    
 }

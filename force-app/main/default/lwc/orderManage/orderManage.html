@@ -1,17 +1,13 @@
 <template >
-    <template if:true={s}>
-    
+    <template if:true={s}>    
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
         <div class="slds-modal__container">
             <!-- modal header start -->
-            <header class="slds-modal__header">
-             
+            <header class="slds-modal__header">             
                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Order</h2>
-            </header>
-     
+            </header>    
         <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-            <lightning-record-form object-api-name={accountObject} fields={myFields}
-        onsuccess={handleAccountCreated} >
+            <lightning-record-form object-api-name={accountObject} fields={myFields} onsuccess={handleAccountCreated} oncancel={cancel1}>
     </lightning-record-form>      
     </div></div>
     </section>
@@ -22,6 +18,7 @@
     record-id={recordId}
     object-api-name={objectApiName}
     fields={myFields}
+
     mode="edit"
     > -->
 <!--</template>-->

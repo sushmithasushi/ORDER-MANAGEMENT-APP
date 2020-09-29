@@ -1,0 +1,22 @@
+<template><template if:true={s}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+               <h2  class="slds-text-heading_medium slds-hyphenate">Create Contact</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium">
+              <div class="slds-p-bottom_large slds-p-left_large" >
+                <lightning-record-edit-form object-api-name="Contact" onsuccess={handleSuccess} onerror={handleError}> 
+                    <lightning-input-field field-name="AccountId" value={nam}></lightning-input-field>     
+                    <lightning-input-field field-name="Name"></lightning-input-field>
+                    <lightning-input-field field-name="AssistantPhone" value={phone}></lightning-input-field>
+                    <lightning-input-field field-name="Phone"></lightning-input-field>
+                    <lightning-input-field field-name="Birthdate"></lightning-input-field><center>
+                    <lightning-button class="slds-m-top_small" label="Submit" variant="brand" type="submit" icon-name="standard:record_create" name="save"></lightning-button>&nbsp;&nbsp;&nbsp;
+                   <lightning-button label="Cancel" onclick={cancel1} icon-name="action:close"></lightning-button></center>
+               </lightning-record-edit-form>
+     </div>
+    </div>
+  </div>
+    </section>
+ </template></template>

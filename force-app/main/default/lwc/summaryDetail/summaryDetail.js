@@ -13,10 +13,7 @@ export default class summaryDetail extends LightningElement {
     ab=false;
     @track searchOrder;
     @api recordId;
-
     sb=false;
-
-
     summary(event){
         getItem({
             ordId: this.recordId

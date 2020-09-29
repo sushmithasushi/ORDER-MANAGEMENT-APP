@@ -40,7 +40,7 @@ export default class SearchDetail extends LightningElement {
  
   
     
-   
+     
     // update sVal var when input field value change
     edit(event)
     {

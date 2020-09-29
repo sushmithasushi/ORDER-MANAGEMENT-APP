@@ -1,7 +1,5 @@
 public with sharing class orderControl {
-   public orderControl() {}
-
-  
+   public orderControl() {} 
    @AuraEnabled(cacheable=true)
    public static List<Order> getalldata(){
        List<Order> l=[SELECT Description,OrderNumber FROM Order];
@@ -26,24 +24,17 @@ public with sharing class orderControl {
 
  
   @AuraEnabled
-  public static list<OrderItem> getItemList(string ordId) {
-     
-       list<OrderItem> odr = new list<OrderItem>();
-      
+  public static list<OrderItem> getItemList(string ordId) {   
+       list<OrderItem> odr = new list<OrderItem>();     
        for(OrderItem obb : [SELECT Product_Name__c,Product_Code__c,Brand__c,Id,Quantity,Stock_Quantity__c,TotalPrice,UnitPrice FROM OrderItem WHERE OrderId=:ordId ]){
           odr.add(obb);
-       }
-       
+       }       
         if(odr.size() == 0){
            throw new AuraHandledException('No Record Found..'); 
-        }
-        
+        }        
        return odr;
    }
-      
-       
-   
-  
+
    @AuraEnabled(cacheable=true)
    public static list<PricebookEntry> getOrderList(string searchKey) {
        string sTempSearchKey = '%' + searchKey + '%';
